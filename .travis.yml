@@ -52,19 +52,19 @@ before_install:
 
 script:
   - mkdir ci-build && cd ci-build
-  - cmake $BUILD_SWITCHES ..;
-  - make
+  - cmake $BUILD_SWITCHES .. -G Ninja;
+  - ninja
   - if [ "$PUBLISH_BINARY" == "true" ] && [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      sudo make install;
+      sudo ninja install;
     fi
-  - make rust-unit-tests
+  - ninja rust-unit-tests
   - ./ja2 -unittests
   - ./ja2-launcher -help
   - if [ "$PUBLISH_BINARY" == "true" ] && [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      sudo make uninstall;
+      sudo ninja uninstall;
     fi
   - if [ "$PUBLISH_BINARY" == "true" ]; then
-      make package;
+      ninja package;
     fi
   - if [ "$PUBLISH_BINARY" == "true" ] && [ "$SFTP_PASSWORD" != "" ]; then
       curl --ftp-create-dirs -T $(echo ja2-stracciatella_*) --ftp-ssl -u $SFTP_USER:$SFTP_PASSWORD ftp://www61.your-server.de/$PUBLISH_DIR/;
@@ -81,6 +81,7 @@ addons:
     - fluid
     - libfltk1.3-dev
     - fakeroot
+    - ninja-build
   coverity_scan:
     project:
       name: "ja2-stracciatella/ja2-stracciatella"
