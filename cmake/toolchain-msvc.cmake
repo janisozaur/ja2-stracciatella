@@ -10,3 +10,4 @@ set(LOCAL_BOOST_LIB ON CACHE BOOL "" FORCE)
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
 add_definitions("-DBOOST_ALL_NO_LIB")
+add_compile_options($<$<CXX_COMPILER_ID:MSVC>:/MP>)
