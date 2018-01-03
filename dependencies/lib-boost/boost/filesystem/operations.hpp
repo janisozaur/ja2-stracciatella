@@ -28,7 +28,6 @@
 #include <boost/detail/bitmask.hpp>
 #include <boost/system/error_code.hpp>
 #include <boost/system/system_error.hpp>
-#include <boost/shared_ptr.hpp>
 #include <boost/utility/enable_if.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/cstdint.hpp>
@@ -40,6 +39,7 @@
 #include <ctime>
 #include <vector>
 #include <stack>
+#include <memory>
 
 #ifdef BOOST_WINDOWS_API
 #  include <fstream>
@@ -161,7 +161,7 @@ namespace boost
         path         m_path2; // may be empty()
         std::string  m_what;  // not built until needed
       };
-      boost::shared_ptr<m_imp> m_imp_ptr;
+      std::shared_ptr<m_imp> m_imp_ptr;
     };
 
 //--------------------------------------------------------------------------------------//
@@ -923,7 +923,7 @@ namespace detail
 
     // shared_ptr provides shallow-copy semantics required for InputIterators.
     // m_imp.get()==0 indicates the end iterator.
-    boost::shared_ptr< detail::dir_itr_imp >  m_imp;
+    std::shared_ptr< detail::dir_itr_imp >  m_imp;
 
     friend class boost::iterator_core_access;
 
@@ -1256,7 +1256,7 @@ namespace filesystem
 
     // shared_ptr provides shallow-copy semantics required for InputIterators.
     // m_imp.get()==0 indicates the end iterator.
-    boost::shared_ptr< detail::recur_dir_itr_imp >  m_imp;
+    std::shared_ptr< detail::recur_dir_itr_imp >  m_imp;
 
     friend class boost::iterator_core_access;
 
